@@ -173,6 +173,7 @@ cell_type_rawdata.zip
 enhancement/pbmc*
 examples/*
 model/model_example.zip
+model/examples/*
 
 # dont need pretrained model
 model/models/models.ckpt

@@ -102,6 +102,7 @@ def main():
         gexpr_feature=pd.read_csv(args.data_path,index_col=0)
     
     #if args.output_type != 'gene':
+    gexpr_feature, to_fill_columns,var = main_gene_selection(gexpr_feature,gene_list)
     if gexpr_feature.shape[1]<19264:
         print('covert gene feature into 19264')
         gexpr_feature, to_fill_columns,var = main_gene_selection(gexpr_feature,gene_list)
