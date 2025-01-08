@@ -3,7 +3,7 @@ cp /staging/bmoore22/scFoundation.tar.gz ./
 cp /staging/bmoore22/scfound2.tar.gz ./
 cp /staging/bmoore22/models.ckpt ./
 cp /staging/bmoore22/model_example.zip ./
-cp /staging/bmoore22/GAMM_S2_clabeled-clusters_0.5.h5ad ./
+cp /staging/bmoore22/GAMM_S2_clabeled-clusters_0.5_cones_orthologs.h5ad ./
 # set environment
 # set environment name
 ENVNAME=scfound2
@@ -39,5 +39,9 @@ python get_embedding.py --task_name genemodule --input_type singlecell --output_
 --save_path ../../examples/genemodule/ --pre_normalized F --demo
 # Gamm gene embeddings
 python get_embedding.py --task_name Gamm --input_type singlecell --output_type gene \
---pool_type all --tgthighres a5 --data_path ../../GAMM_S2_clabeled-clusters_0.5_cones.h5ad \
+--pool_type all --tgthighres a5 --data_path ../../GAMM_S2_clabeled-clusters_0.5_cones_orthologs.h5ad \
 --save_path ../../ --pre_normalized A --version ce
+
+cd ../../
+rm scfound2.tar.gz
+rm scFoundation.tar.gz
