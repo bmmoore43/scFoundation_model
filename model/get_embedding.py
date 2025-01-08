@@ -56,6 +56,7 @@ def main_gene_selection(X_df, gene_list):
     var = pd.DataFrame(index=X_df.columns)
     var['mask'] = [1 if i in to_fill_columns else 0 for i in list(var.index)]
     return X_df, to_fill_columns,var
+
 gene_list_df = pd.read_csv('./OS_scRNA_gene_index.19264.tsv', header=0, delimiter='\t')
 gene_list = list(gene_list_df['gene_name'])
 
@@ -77,19 +78,31 @@ def main():
         gexpr_feature = pd.DataFrame(gexpr_feature.toarray())
     elif args.data_path[-4:]=='h5ad':
         gexpr_feature = sc.read_h5ad(args.data_path)
-        idx = gexpr_feature.obs_names.tolist()
-        col = gexpr_feature.var.gene_name.tolist()
-        if issparse(gexpr_feature.X):
-            gexpr_feature = gexpr_feature.X.toarray()
+        # main_gene_selection
+        X_df= gexpr_feature.to_df()
+        X_df, to_fill_columns, var = main_gene_selection(X_df, gene_list)
+        if args.output_type == 'gene':
+            idx = gexpr_feature.obs_names.tolist()
+            try:
+                col = gexpr_feature.var.gene_name.tolist()
+            except:
+                col = gexpr_feature.var_names.tolist()
+            # main_gene_selection
+            if issparse(gexpr_feature):
+                gexpr_feature = gexpr_feature.toarray()
+            else:
+                gexpr_feature = gexpr_feature
+            gexpr_feature = pd.DataFrame(gexpr_feature,index=idx,columns=col)
         else:
-            gexpr_feature = gexpr_feature
-        gexpr_feature = pd.DataFrame(gexpr_feature,index=idx,columns=col)
+            gexpr_feature = X_df #
     elif args.data_path[-3:]=='npy':
         gexpr_feature = np.load(args.data_path)
         gexpr_feature = pd.DataFrame(gexpr_feature)
     else:
         gexpr_feature=pd.read_csv(args.data_path,index_col=0)
     
+    #if args.output_type != 'gene':
+    gexpr_feature, to_fill_columns,var = main_gene_selection(gexpr_feature,gene_list)
     if gexpr_feature.shape[1]<19264:
         print('covert gene feature into 19264')
         gexpr_feature, to_fill_columns,var = main_gene_selection(gexpr_feature,gene_list)

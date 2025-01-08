@@ -161,3 +161,19 @@ cython_debug/
 
 .DS_store
 **/*.DS_store/
+.DS_Store
+**/*.DS_Store/
+
+# dont need annotation data files
+annotation/data/
+annotation/figures/
+
+# don't need other data examples
+cell_type_rawdata.zip
+enhancement/pbmc*
+examples/*
+model/model_example.zip
+model/examples/*
+
+# dont need pretrained model
+model/models/models.ckpt
