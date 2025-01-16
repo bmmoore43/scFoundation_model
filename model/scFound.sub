@@ -1,0 +1,24 @@
+# make log files
+log = scFound_$(Cluster).log
+output = scFound_$(Cluster).out
+error = scFound_$(Cluster).err
+
+# transfer input files
+transfer_input_files = scfound_test.py, get_embedding.py
+
+# executable
+#executable = scFound.sh
+
+# requirements
+Requirements = (Target.HasCHTCStaging == true) && (OpSysMajorVer > 7)
+require_gpus = (Capability >= 8.0) && (GlobalMemoryMb >= 30000)
+request_cpus = 1
+request_memory = 60GB
+request_disk = 60GB
+
+# request GPUs
+request_gpus = 1
++WantGPULab = true
++GPUJobLength = "short" 
+
+queue
